@@ -1,0 +1,4 @@
+# Run ESLint
+npm run lint
+# Run Prettier check
+npm run format
