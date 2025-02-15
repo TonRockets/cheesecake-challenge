@@ -2,13 +2,14 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { useScrollAnimation, useShootingStarAnimation } from '@/hooks/index'
+
+import { Dialog } from './ui/dialogs'
 import { Accordion } from '@/components/ui/accordiont'
-import { LocationCard, BuyTicketCard } from '@/src/components/ui/card'
-import { AppIcon } from './ui/icons'
 import { PromotionalContent } from './ui/card/promotional-content'
+import { useScrollAnimation, useShootingStarAnimation } from '@/hooks/index'
 
 export default function LandingPage() {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isAccordionOpen, setIsAccordionOpen] = useState<boolean>(false)
   const [learnMoreClicked, setLearnMoreClicked] = useState<boolean>(false)
 
@@ -21,12 +22,14 @@ export default function LandingPage() {
 
   const shootingStarAnimation = useShootingStarAnimation()
 
-  const handleBuyTicket = () => {
-    console.log('Buy ticket clicked')
-  }
-
   const handleLearnMore = () => {
     setLearnMoreClicked(true)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setLearnMoreClicked(false)
   }
 
   return (
@@ -59,8 +62,10 @@ export default function LandingPage() {
                 style={{ opacity: firstLayerOpacity }}
                 className="md:mx-0 mx-10 mb-8"
               >
-                <h1 className="text-2xl font-bold font-poppins">Lorem ipsum</h1>
-                <p className="font-dmsans">
+                <h1 className="text-2xl font-bold font-poppins" tabIndex={0}>
+                  Lorem ipsum
+                </h1>
+                <p className="font-dmsans" tabIndex={0}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Vivamus real-time nunc, sed egestas dictum massa id, feugiat
                   euismod.
@@ -71,10 +76,10 @@ export default function LandingPage() {
                 style={{ opacity: secondLayerOpacity }}
                 className="md:mx-0 mx-10 mb-8"
               >
-                <h1 className="text-2xl font-bold font-poppins">
+                <h1 className="text-2xl font-bold font-poppins" tabIndex={0}>
                   Lorem ipsum dolor sit
                 </h1>
-                <p className="font-dmsans">
+                <p className="font-dmsans" tabIndex={0}>
                   Nulla lorem tincidunt. Pulvinar et sapien sit amet blandit
                   odio lectus euismod quam ut justo. Integer ornare.
                 </p>
@@ -88,8 +93,10 @@ export default function LandingPage() {
                   title="Lorem ipsum dolor sit amet"
                   isOpen={isAccordionOpen}
                   onToggle={() => setIsAccordionOpen(!isAccordionOpen)}
+                  aria-expanded={isAccordionOpen}
+                  aria-controls="accordion-content"
                 >
-                  <p className="pb-4 font-dmsans">
+                  <p className="pb-4 font-dmsans" tabIndex={0}>
                     Nulla lorem tincidunt. Pulvinar et sapien sit amet blandit
                     odio lectus euismod quam ut justo. Integer ornare.
                   </p>
@@ -102,71 +109,63 @@ export default function LandingPage() {
                 className="md:mx-0 mx-10 pb-8"
               >
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  role="button"
+                  aria-label="Learn More"
                   onClick={handleLearnMore}
+                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.05 }}
                   className={`text-white px-8 py-3 rounded-lg ${
                     learnMoreClicked
                       ? 'bg-secondary-dark'
                       : 'bg-secondary-light hover:bg-secondary'
                   } transition-all duration-150`}
+                  aria-expanded={isModalOpen}
+                  aria-controls="learn-more-modal"
                 >
                   LEARN MORE
                 </motion.button>
               </motion.div>
+
+              {/* Dialog */}
+              <Dialog
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                title="Learn More About Our Features"
+                theme="secondary"
+                content={
+                  <div>
+                    <h2 className="text-lg font-semibold text-blue-600">
+                      Bibi Bus Tracking & Ticketing
+                    </h2>
+                    <p className="text-gray-700 mt-2">
+                      Our project is designed to revolutionize public
+                      transportation by providing
+                      <strong>real-time bus tracking</strong> and seamless{' '}
+                      <strong>online ticket purchasing</strong>.
+                    </p>
+                    <p className="text-gray-700 mt-2">
+                      With our platform, users can locate buses on any route,
+                      check estimated arrival times, and plan their trips more
+                      efficiently. Additionally, they can purchase tickets
+                      online, eliminating the need for cash transactions or
+                      waiting in line.
+                    </p>
+                    <p className="text-gray-700 mt-2">
+                      Our goal is to enhance the commuting experience by making
+                      it more
+                      <strong>convenient, reliable, and accessible</strong> for
+                      everyone.
+                    </p>
+                  </div>
+                }
+                aria-labelledby="learn-more-modal"
+              />
             </div>
           </div>
         </motion.div>
 
         {/* Promotional content */}
-        <motion.div
-          className="w-full md:w-1/2 md:h-full flex flex-col items-center order-1 md:order-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="relative w-[300px] h-[465px] flex justify-center items-start mt-12">
-            {/* Shooting star */}
-            <motion.div
-              className="w-1 h-1 bg-white rounded-full"
-              animate={shootingStarAnimation.animate}
-              transition={shootingStarAnimation.transition}
-            />
-
-            {/* App background */}
-            <PromotionalContent />
-
-            {/* App icon */}
-            <div className="absolute top-[5%] flex flex-col items-center gap-1">
-              <AppIcon />
-              <div className="text-2xl font-bold">App</div>
-            </div>
-
-            {/* Location card */}
-            <div className="absolute top-[32%] left-0 flex justify-center items-center">
-              <BuyTicketCard
-                location1="Location 1"
-                location2="Location 2"
-                price="$1.50"
-                travelTime="1 hour"
-                departureTime="10:00 AM"
-                onBuyTicket={handleBuyTicket}
-              />
-            </div>
-
-            {/* Location card */}
-            <div className="absolute bottom-[20%] right-0 flex justify-center items-center">
-              <LocationCard location1="Location 1" location2="Location 2" />
-            </div>
-
-            <div className="absolute bottom-[5%] w-full flex flex-col justify-center items-center gap-1">
-              <p className="text-xxxxs text-white">Don´t have an account?</p>
-              <button className="text-sm text-primary-light bg-white rounded-full px-4 py-1">
-                Create
-              </button>
-            </div>
-          </div>
-        </motion.div>
+        <PromotionalContent />
       </div>
 
       {/* Footer */}
