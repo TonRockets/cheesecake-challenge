@@ -13,11 +13,15 @@ export default {
           light: '#9A7FDD',
           DEFAULT: '#6C529E',
           dark: '#B49AFF',
+          lightText: '#ADA9B5',
         },
         secondary: {
           light: '#2081E2',
           DEFAULT: '#186CC0',
           dark: '#0C4883',
+        },
+        tertiary: {
+          light: '#51CE92',
         },
         background: {
           light: '#E0E3FF',
