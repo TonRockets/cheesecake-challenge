@@ -1,125 +1,123 @@
 import { motion } from 'framer-motion'
+import { useShootingStarAnimation } from '@/hooks/index'
+import { PromotionalBackground } from './promotional-background'
+import { BuyTicketCard, LocationCard } from './index'
+import { AppIcon } from '../icons'
+import { useState } from 'react'
+import Loading from '@/src/app/loading'
+import { Dialog } from '../dialogs'
 
 export const PromotionalContent = () => {
+  const [loading, setLoading] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
+  const shootingStarAnimation = useShootingStarAnimation()
+
+  const handleBuyTicket = () => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setIsModalOpen(true)
+    }, 2000)
+  }
+
   return (
-    <motion.svg
-      id="OBJECTS"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      viewBox="197.55 77.58 353.34 763.79"
-      width="215"
-      height="465"
+    <motion.div
+      className="w-full md:w-1/2 md:h-full flex flex-col items-center order-1 md:order-2"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
+      role="region"
+      aria-labelledby="promotional-content-title"
     >
-      <defs>
-        <clipPath id="clippath">
-          <rect
-            className="cls-1"
-            x="197.55"
-            y="77.58"
-            width="353.34"
-            height="763.79"
-            rx="18.07"
-            ry="18.07"
+      <header id="promotional-content-title" className="sr-only">
+        Promotional Content Section
+      </header>
+
+      <div className="relative w-[300px] h-[465px] flex justify-center items-start mt-12">
+        {/* Shooting star */}
+        <motion.div
+          className="w-1 h-1 bg-white rounded-full"
+          animate={shootingStarAnimation.animate}
+          transition={shootingStarAnimation.transition}
+          aria-hidden="true"
+        />
+
+        {/* App background */}
+        <PromotionalBackground aria-hidden="true" />
+
+        {/* App icon */}
+        <div
+          className="absolute top-[5%] flex flex-col items-center gap-1"
+          aria-labelledby="app-icon"
+        >
+          <AppIcon aria-label="App Icon" />
+          <div className="text-2xl font-bold" id="app-icon">
+            App
+          </div>
+        </div>
+
+        {/* buy ticket card */}
+        <div
+          className="absolute top-[32%] left-0 flex justify-center items-center"
+          aria-live="assertive"
+        >
+          {loading && <Loading />}
+          <BuyTicketCard
+            location1="Location 1"
+            location2="Location 2"
+            price="$1.50"
+            travelTime="1h"
+            departureTime="10AM"
+            onBuyTicket={handleBuyTicket}
+            aria-label="Buy Ticket Card"
+            aria-live="assertive"
           />
-        </clipPath>
-        <linearGradient
-          id="Degradado_sin_nombre_8"
-          x1="197.55"
-          y1="459.48"
-          x2="550.89"
-          y2="459.48"
-          gradientUnits="userSpaceOnUse"
+        </div>
+
+        <Dialog
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          theme="primary"
+          title="Oops! Not this time!"
+          content={
+            <div>
+              <h2 className="text-lg font-semibold text-red-600">
+                Purchase Not Available Yet
+              </h2>
+              <p className="text-gray-700 mt-2" aria-live="assertive">
+                Online ticket purchasing is not available at the moment as we
+                are still finalizing our payment integration to ensure a secure
+                and seamless experience.
+              </p>
+              <p className="text-gray-700 mt-2">
+                We appreciate your patience and are working hard to launch this
+                feature soon!
+              </p>
+            </div>
+          }
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        />
+
+        {/* Location card */}
+        <div
+          className="absolute bottom-[20%] right-0 flex justify-center items-center"
+          aria-labelledby="location-card"
         >
-          <stop offset="0" stopColor="#c7adf7" />
-          <stop offset="1" stopColor="#926ad3" />
-        </linearGradient>
-        <linearGradient
-          id="Degradado_sin_nombre_4"
-          x1="165.58"
-          y1="339.9"
-          x2="439.74"
-          y2="339.9"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0" stopColor="#c08aff" />
-          <stop offset="1" stopColor="#926ad3" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient
-          id="Degradado_sin_nombre_5"
-          x1="3235.53"
-          y1="658.74"
-          x2="3509.69"
-          y2="658.74"
-          gradientTransform="translate(3799.14 1216.32) rotate(-180)"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0" stopColor="#c08aff" />
-          <stop offset="1" stopColor="#926ad3" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <motion.g
-        className="cls-54"
-        initial={{ scale: 0.95 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-      >
-        <g>
-          <rect
-            className="cls-37"
-            x="197.55"
-            y="77.58"
-            width="353.34"
-            height="763.79"
-            rx="18.07"
-            ry="18.07"
-          />
-          <g>
-            <g className="cls-32">
-              <g>
-                <motion.path
-                  className="cls-20"
-                  d="M165.58,627.58c60.22-25.98,31.97-192.56,53.88-230.66,28.64-49.8,60.56-40.56,86.1-77.41,40.96-59.08,20.07-176.01,48.03-211.56,27.11-34.47,86.14-48.86,86.14-55.73H165.58v575.36Z"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 0.2 }}
-                />
-                <motion.path
-                  className="cls-19"
-                  d="M563.62,269.9c-60.22,25.98-31.97,192.56-53.88,230.66-28.64,49.8-60.56,40.56-86.1,77.41-40.96,59.08-20.07,176.01-48.03,211.56-27.11,34.47-86.14,48.86-86.14,55.73h274.16V269.9Z"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 0.4 }}
-                />
-              </g>
-            </g>
-          </g>
-        </g>
-      </motion.g>
-      <style>
-        {`
-          .cls-1, .cls-2 {
-            fill: none;
-          }
-          .cls-19 {
-            fill: url(#Degradado_sin_nombre_5);
-          }
-          .cls-20 {
-            fill: url(#Degradado_sin_nombre_4);
-          }
-          .cls-37 {
-            fill: url(#Degradado_sin_nombre_8);
-          }
-          .cls-54 {
-            clip-path: url(#clippath);
-          }
-          .cls-18 {
-            font-size: 11.75px;
-          }
-        `}
-      </style>
-    </motion.svg>
+          <LocationCard location1="Location 1" location2="Location 2" />
+        </div>
+
+        <div className="absolute bottom-[5%] w-full flex flex-col justify-center items-center gap-1">
+          <p className="text-xxxxs text-white">Don´t have an account?</p>
+          <button
+            className="text-sm text-primary-light bg-white rounded-full px-4 py-1"
+            aria-label="Create Account"
+          >
+            Create
+          </button>
+        </div>
+      </div>
+    </motion.div>
   )
 }
