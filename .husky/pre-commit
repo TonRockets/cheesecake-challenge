@@ -1,4 +1,11 @@
+# Run EsLint with fix
+npm run lint:fix
+
 # Run ESLint
 npm run lint
-# Run Prettier check
+
+# Run Prettier
 npm run format
+
+# Run Tests
+npm run test
