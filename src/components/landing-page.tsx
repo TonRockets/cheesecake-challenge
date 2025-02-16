@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 
 import { Dialog } from './ui/dialogs'
-import { Accordion } from '@/components/ui/accordiont'
+import { Accordion } from '@/src/components/ui/accordion'
 import { PromotionalContent } from './ui/card/promotional-content'
 import { useScrollAnimation, useShootingStarAnimation } from '@/hooks/index'
 
