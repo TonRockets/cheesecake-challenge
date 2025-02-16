@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import type { AccordionProps } from '@/types/animation'
+import type { AccordionProps } from '@/types/accordions'
 import { ChevronRight } from 'lucide-react'
 
 export const Accordion = ({
