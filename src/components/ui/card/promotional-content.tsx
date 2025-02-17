@@ -206,10 +206,7 @@ export const PromotionalContent: React.FC = () => {
             title="Sign Up"
             content={
               <div>
-                <UserForm
-                  onClose={setIsCreateModalOpen}
-                  onSubmit={createUser}
-                />
+                <UserForm onSubmit={createUser} />
               </div>
             }
             aria-labelledby="modal-title"

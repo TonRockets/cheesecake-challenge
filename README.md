@@ -3,20 +3,10 @@
 ## 🚀 Sobre o Projeto
 
 Este projeto foi desenvolvido utilizando **Next.js**, um framework React para produção, focado em desempenho e experiência do desenvolvedor. A ideia do projeto é criar um site para o usuário ter uma experiência de compra de passagens e rastreio de ônibus.
-<br>
 
-Decidi estruturar o projeto de acordo com estruturas padrões de pastas e arquivos do Next.js para facilitar a manutenção e o desenvolvimento do projeto. Padrões como SRP e ISP foram utilizados para garantir que cada arquivo tenha uma responsabilidade única e seja isolado de outros arquivos (não está 100% seguido, mas da pra perceber a utilização desses padrões).
-<br>
+O projeto conta com uma simples API em GraphQL para poder realizar operações básicas de CRUD. Uma página exclusiva para listar os usuários cadastrados e poder excluí-los se assim for necessário. Toda a estrutura da API foi pensada de forma agnóstica e desacoplada, caso venhamos mudar o client http, ou qualquer outra ferramenta, interfaces serão as responsáveis por manter a estrutura pronta para receber outra ferramenta.
 
-Decidi, também, utilizar o ESLint com o Prettier para garantir a qualidade do código e a consistência do projeto. Integrando essa qualidade com o commitlint para garantir que o código seja commitado de forma correta através do husky.
-<br>
-
-O projeto conta com alguns testes unitários para garantir a qualidade do código (não tem 100% de cobertura, mas da pra perceber a utilização dos testes, criei afim de demonstrar os meus conhecimentos).
-<br>
-
----
-
-Acho importante mencionar que as animações foram criadas de acordo com o que foi pedido no desafio, porém, tive a liberdade de criar algumas de forma diferente do que foi pedido por julgar mais interessante. Também nao os procurei para tirar quaisquer dúvidas porque achei que seria interessante fazer da forma que eu entendi das especificações. Mas com certeza tive dúvidas, como por exemplo, o scroll dos conteúdos de texto e o comportamento de sticky do mockup, não entendi se o mockup era o background roxo com os cards ou outra coisa.
+Foi enviado um documento anexado ao e-mail fornecendo demais informações sobre o projeto e decisões técnicas.
 
 ## 📌 Tecnologias Utilizadas
 
