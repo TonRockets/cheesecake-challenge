@@ -71,7 +71,7 @@ export default function UserListPage() {
 
   useEffect(() => {
     fetchUsers()
-  }, [users])
+  }, [])
 
   return (
     <Suspense fallback={<Loading />}>
