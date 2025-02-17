@@ -72,7 +72,8 @@ Acho importante mencionar que as animações foram criadas de acordo com o que f
    ```
 4. **Acesse no navegador:**
    ```sh
-   http://localhost:3000
+   http://localhost:3000 # para acessar a página inicial
+   http://localhost:3000/user-list # para acessar a página que exibe os usuários cadastrados através do botão create na página inicial
    ```
 
 ## ✅ Testes
