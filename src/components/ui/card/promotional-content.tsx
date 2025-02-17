@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from 'framer-motion'
 import { useShootingStarAnimation } from '@/hooks/index'
 import { PromotionalBackground } from './promotional-background'
@@ -5,11 +7,15 @@ import { BuyTicketCard, LocationCard } from './index'
 import { AppIcon } from '../icons'
 import { useState } from 'react'
 import Loading from '@/src/app/loading'
-import { Dialog } from '../dialogs'
+import { Dialog } from '@/components/ui/dialogs'
+import { UserForm } from '@/components/user-form'
 
-export const PromotionalContent = () => {
+export const PromotionalContent: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+  const [isCreated, setIsCreated] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false)
 
   const shootingStarAnimation = useShootingStarAnimation()
 
@@ -19,6 +25,54 @@ export const PromotionalContent = () => {
       setLoading(false)
       setIsModalOpen(true)
     }, 2000)
+  }
+
+  const executeGraphQL = async (query: string) => {
+    try {
+      const response = await fetch('/api/graphql', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const result = await response.json()
+
+      if (result.errors) {
+        throw new Error(result.errors[0].message)
+      }
+
+      return result.data
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+      console.error('GraphQL Error:', err)
+      throw err
+    }
+  }
+
+  const createUser = async (name: string, email: string) => {
+    try {
+      setLoading(true)
+      setError(null)
+      const mutation = `
+        mutation {
+          createUser(name: "${name}", email: "${email}") {
+            id
+            name
+            email
+          }
+        }
+      `
+      await executeGraphQL(mutation)
+      setLoading(false)
+    } catch {
+      console.error(error)
+    } finally {
+      setIsCreated(true)
+    }
   }
 
   return (
@@ -75,6 +129,7 @@ export const PromotionalContent = () => {
           />
         </div>
 
+        {/* Buy ticket modal */}
         <Dialog
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
@@ -100,6 +155,33 @@ export const PromotionalContent = () => {
           aria-describedby="modal-description"
         />
 
+        {/* Created or not user modal */}
+        <Dialog
+          isOpen={isCreated}
+          onClose={() => setIsCreated(false)}
+          theme="primary"
+          title="Create User"
+          content={
+            error ? (
+              <div className="text-center p-4">
+                <h2 className="text-xl font-semibold text-red-500 mb-2">
+                  Error
+                </h2>
+                <p className="text-base">
+                  Failed to create the user. Please try again later.
+                </p>
+              </div>
+            ) : (
+              <div className="text-center p-4">
+                <h2 className="text-xl font-semibold text-green-500 mb-2">
+                  Success
+                </h2>
+                <p className="text-base">User created successfully!</p>
+              </div>
+            )
+          }
+        />
+
         {/* Location card */}
         <div
           className="absolute bottom-[20%] right-0 flex justify-center items-center"
@@ -113,9 +195,26 @@ export const PromotionalContent = () => {
           <button
             className="text-sm text-primary-light bg-white rounded-full px-4 py-1"
             aria-label="Create Account"
+            onClick={() => setIsCreateModalOpen(true)}
           >
             Create
           </button>
+          <Dialog
+            isOpen={isCreateModalOpen}
+            onClose={() => setIsCreateModalOpen(false)}
+            theme="primary"
+            title="Sign Up"
+            content={
+              <div>
+                <UserForm
+                  onClose={setIsCreateModalOpen}
+                  onSubmit={createUser}
+                />
+              </div>
+            }
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+          />
         </div>
       </div>
     </motion.div>

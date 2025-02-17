@@ -21,6 +21,10 @@
     "paths": {
       "@/src/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
+      "@/interfaces/*": ["./src/interfaces/*"],
+      "@/repositories/*": ["./src/repositories/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/graphql/*": ["./src/graphql/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/types/*": ["./src/types/*"],
       "@/utils/*": ["./src/utils/*"],
