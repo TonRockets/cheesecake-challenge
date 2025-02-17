@@ -207,7 +207,6 @@ export const PromotionalContent: React.FC = () => {
             content={
               <div>
                 <UserForm
-                  onClose={setIsCreateModalOpen}
                   onSubmit={createUser}
                 />
               </div>

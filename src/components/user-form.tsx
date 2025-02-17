@@ -3,11 +3,10 @@
 import { useState } from 'react'
 
 interface UserFormProps {
-  onClose: (value: boolean) => void
   onSubmit: (name: string, email: string) => Promise<void>
 }
 
-export const UserForm: React.FC<UserFormProps> = ({ onSubmit, onClose }) => {
+export const UserForm: React.FC<UserFormProps> = ({ onSubmit }) => {
   const [formData, setFormData] = useState({ name: '', email: '' })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,7 +35,6 @@ export const UserForm: React.FC<UserFormProps> = ({ onSubmit, onClose }) => {
         <button
           type="submit"
           className="px-4 py-2 bg-primary hover:bg-primary-light text-white rounded"
-          onClick={() => onClose(false)}
         >
           Create user
         </button>
